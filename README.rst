@@ -1,0 +1,16 @@
+datasciencetools
+============
+
+``datasciencetools`` ease the execution of any Docker container.
+
+
+Installation
+------------
+
+The recommended way to launch the application out of ``datasciencetools`` list is to simply use terminal:
+
+.. code:: sh
+
+    docker-compose -f postgresql_docker-compose.yaml up
+
+``datasciencetools`` officially supports only Docker 3.8.
