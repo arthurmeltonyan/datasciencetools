@@ -7,7 +7,7 @@ datasciencetools
 Installation
 ------------
 
-The recommended way to launch the application out of ``datasciencetools`` list is to simply use terminal:
+The recommended way of launching the application out of ``datasciencetools`` list is to simply use terminal:
 
 .. code:: sh
 
