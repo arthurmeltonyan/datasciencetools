@@ -1,11 +1,11 @@
-version: '3.1'
+version: '3.8'
 
 
 services:
 
-  database_management_system:
+  database:
     image: mongo:latest
-    container_name: mongodb
+    container_name: mongo
     environment:
       MONGO_INITDB_ROOT_USERNAME: user
       MONGO_INITDB_ROOT_PASSWORD: password
@@ -14,11 +14,16 @@ services:
       - ./mongodb_data:/data/db
     ports:
       - 27017:27017
-    networks:
-      - production
 
 
-networks:
-
-  production:
-    driver: bridge
+  client:
+      image: mongo-express:latest
+      container_name: mongo-express
+      environment:
+        ME_CONFIG_MONGODB_ADMINUSERNAME: user
+        ME_CONFIG_MONGODB_ADMINPASSWORD: password
+        ME_CONFIG_MONGODB_ENABLE_ADMIN: 'true'
+        ME_CONFIG_MONGODB_PORT: 27017
+        ME_CONFIG_MONGODB_SERVER: 'database'
+      ports:
+        - 8081:8081
