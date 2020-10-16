@@ -24,6 +24,6 @@ services:
         ME_CONFIG_MONGODB_ADMINPASSWORD: password
         ME_CONFIG_MONGODB_ENABLE_ADMIN: 'true'
         ME_CONFIG_MONGODB_PORT: 27017
-        ME_CONFIG_MONGODB_SERVER: 'database'
+        ME_CONFIG_MONGODB_SERVER: database
       ports:
         - 8081:8081
