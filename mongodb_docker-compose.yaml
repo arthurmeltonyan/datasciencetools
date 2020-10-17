@@ -3,7 +3,7 @@ version: '3.8'
 
 services:
 
-    mongo_dbms:
+    mongodb_dbms:
         image: mongo:latest
         container_name: mongo_container
         environment:
@@ -19,20 +19,20 @@ services:
         networks:
             - mongodb_network
 
-    mongo_gui:
+    mongodb_gui:
         image: mongo-express:latest
         container_name: mongo-express_container
         environment:
             ME_CONFIG_MONGODB_ADMINUSERNAME: user
             ME_CONFIG_MONGODB_ADMINPASSWORD: password
             ME_CONFIG_MONGODB_PORT: 27017
-            ME_CONFIG_MONGODB_SERVER: mongo_dbms
+            ME_CONFIG_MONGODB_SERVER: mongodb_dbms
         ports:
             - 8081:8081
         networks:
             - mongodb_network
         depends_on:
-            - mongo_dbms
+            - mongodb_dbms
 
 
 networks:

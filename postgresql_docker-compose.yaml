@@ -1,24 +1,46 @@
-version: '3.1'
+version: '3.8'
 
 
 services:
 
-  database_management_system:
-    image: postgres:latest
-    container_name: postgresql
-    environment:
-      POSTGRES_USER: user
-      POSTGRES_PASSWORD: password
-      POSTGRES_DB: database
-    volumes:
-      - ./postgresql_data:/var/lib/postgresql/data
-    ports:
-      - 5432:5432
-    networks:
-      - production
+    postgresql_dbms:
+        image: postgres:latest
+        container_name: postgres_container
+        environment:
+            POSTGRES_USER: user
+            POSTGRES_PASSWORD: password
+            POSTGRES_DB: database
+        volumes:
+            - type: volume
+              source: ./postgresql_data
+              target: /var/lib/postgresql/data
+        ports:
+            - 5432:5432
+        networks:
+            - postgresql_network
+
+    postgresql_gui:
+        image: dpage/pgadmin4:latest
+        container_name: pgadmin_container
+        environment:
+            PGADMIN_DEFAULT_EMAIL: user
+            PGADMIN_DEFAULT_PASSWORD: password
+            PGPORT: 5432
+            PGHOST: postgresql_dbms
+        ports:
+            - 80:80
+        networks:
+            - postgresql_network
+        depends_on:
+            - postgresql_dbms
 
 
 networks:
 
-  production:
-    driver: bridge
+    postgresql_network:
+        driver: bridge
+
+
+volumes:
+
+    postgresql_data:
