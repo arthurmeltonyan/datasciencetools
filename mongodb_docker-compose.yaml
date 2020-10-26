@@ -3,44 +3,46 @@ version: '3.8'
 
 services:
 
-    mongodb_dbms:
+    mongo:
         image: mongo:latest
-        container_name: mongo_container
+        hostname: mongo
+        container_name: mongo
         environment:
             MONGO_INITDB_ROOT_USERNAME: user
             MONGO_INITDB_ROOT_PASSWORD: password
             MONGO_INITDB_DATABASE: database
         volumes:
             - type: volume
-              source: ./mongodb_data
+              source: ./mongo_data
               target: /data/db
         ports:
             - 27017:27017
         networks:
-            - mongodb_network
+            - mongo_network
 
-    mongodb_gui:
+    mongo-express:
         image: mongo-express:latest
-        container_name: mongo-express_container
+        hostname: mongo-express
+        container_name: mongo-express
         environment:
             ME_CONFIG_MONGODB_ADMINUSERNAME: user
             ME_CONFIG_MONGODB_ADMINPASSWORD: password
             ME_CONFIG_MONGODB_PORT: 27017
-            ME_CONFIG_MONGODB_SERVER: mongodb_dbms
+            ME_CONFIG_MONGODB_SERVER: mongo
         ports:
             - 8081:8081
         networks:
-            - mongodb_network
+            - mongo_network
         depends_on:
-            - mongodb_dbms
+            - mongo
 
 
 networks:
 
-    mongodb_network:
+    mongo_network:
         driver: bridge
 
 
 volumes:
 
-    mongodb_data:
+    mongo_data:

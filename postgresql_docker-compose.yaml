@@ -3,44 +3,43 @@ version: '3.8'
 
 services:
 
-    postgresql_dbms:
+    postgres:
         image: postgres:latest
-        container_name: postgres_container
+        hostname: postgres
+        container_name: postgres
         environment:
             POSTGRES_USER: user
             POSTGRES_PASSWORD: password
             POSTGRES_DB: database
         volumes:
             - type: volume
-              source: ./postgresql_data
+              source: ./postgres_data
               target: /var/lib/postgresql/data
         ports:
             - 5432:5432
         networks:
-            - postgresql_network
+            - postgres_network
 
-    postgresql_gui:
-        image: dpage/pgadmin4:latest
-        container_name: pgadmin_container
+    pgweb:
+        image: sosedoff/pgweb:latest
+        hostname: pgweb
+        container_name: pgweb
         environment:
-            PGADMIN_DEFAULT_EMAIL: user@user.com
-            PGADMIN_DEFAULT_PASSWORD: password
-            PGPORT: 5432
-            PGHOST: postgresql_dbms
+            DATABASE_URL: postgres://user:password@postgres:5432/database?sslmode=disable
         ports:
-            - 80:80
+            - 8081:8081
         networks:
-            - postgresql_network
+            - postgres_network
         depends_on:
-            - postgresql_dbms
+            - postgres
 
 
 networks:
 
-    postgresql_network:
+    postgres_network:
         driver: bridge
 
 
 volumes:
 
-    postgresql_data:
+    postgres_data:
